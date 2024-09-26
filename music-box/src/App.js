@@ -1,6 +1,8 @@
 import api from "./api";
 import { useState } from "react";
 
+import './utils/globals.css'
+
 function App() {
   const [musicas, setMusicas] = useState([]);
 
@@ -26,6 +28,7 @@ function App() {
 
   return (
     <>
+      h
       <h1>Titulo</h1>
       <button onClick={listar}>Listar</button>
     </>
