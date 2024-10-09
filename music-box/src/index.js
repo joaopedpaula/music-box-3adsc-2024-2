@@ -8,6 +8,6 @@ import Musicas from './pages/Musicas/Musicas';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Musicas />
+    <App />
   </React.StrictMode>
 );

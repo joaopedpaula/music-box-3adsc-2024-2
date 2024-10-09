@@ -19,19 +19,21 @@ const Musicas = () => {
         console.log("Deu erro, tente novamente!");
       });
   }
+
   useEffect(() => {
     recuperarValorDoCard();
   }, []);
+
   return (
     <>
       <NavBar logoInicio={logo} />
       <div className={styles["content-musicas"]}>
-        {/* 
+        
             <CardMusica 
                 artista={"Metaleiros"}
                 genero={"rock"}
             /> 
-        */}
+       
         
         {cardsData.map((item, i) => (
             <CardMusica 
