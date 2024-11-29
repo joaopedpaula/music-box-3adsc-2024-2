@@ -1,3 +1,26 @@
+export const mascaraTelefone = (e) => {
+  let valor = e.target.value.replace(/\D/g, "");
+  if (valor.length > 11) valor = valor.substring(0, 11);
+  valor = valor.replace(/^(\d{2})(\d)/g, "($1) $2");
+  valor = valor.replace(/(\d)(\d{4})$/, "$1-$2");
+  e.target.value = valor;
+};
+export const mascaraCelular = (e) => {
+  let valor = e.target.value.replace(/\D/g, "");
+  if (valor.length > 11) valor = valor.substring(0, 11);
+  valor = valor.replace(/^(\d{2})(\d)/g, "($1) $2");
+  valor = valor.replace(/(\d)(\d{4})$/, "$1-$2");
+  e.target.value = valor;
+};
+export const mascaraCPF = (e) => {
+  let valor = e.target.value.replace(/\D/g, "");
+  if (valor.length > 11) valor = valor.substring(0, 11);
+  valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+  valor = valor.replace(/(\d{3})(\d)/, "$1.$2");
+  valor = valor.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
+  e.target.value = valor;
+};
+
 export const transformarData = (dataString) => {
   const data = new Date(dataString);
   return data.toLocaleDateString("pt-BR", {

@@ -6,20 +6,22 @@ import { useNavigate } from "react-router-dom";
 import NavBar from "../../components/NavBar/NavBar";
 import imgCantor from "../../utils/assets/pessoa-ouvindo-disco.svg";
 import { toast } from "react-toastify";
+
+import { mascaraCPF } from "../../utils/globals";
+
 function Adicionar() {
   const navigate = useNavigate();
-
-    useEffect(() => {
-        toast.error("DEU CERTO AGORA!");
-    }, [])
 
   const [ano, setAno] = useState("");
   const [genero, setGenero] = useState("");
   const [imagem, setImagem] = useState("");
   const [artista, setArtista] = useState("");
   const [nomeMusica, setNomeMusica] = useState("");
+  const [cpf, setCpf] = useState("");
 
   const handleSave = () => {
+    const cpf_sem_especiais = cpf.replaceAll(/[^\d]/g, "");
+
     const objetoAdicionado = {
       nomeMusica,
       artista,
@@ -27,14 +29,12 @@ function Adicionar() {
       ano,
       imagem,
     };
+
+    console.log("Objeto: ", objetoAdicionado);
+    console.log("cpf: ", cpf_sem_especiais);
+
     api
-      .post(``, {
-        nomeMusica,
-        artista,
-        genero,
-        ano,
-        imagem,
-      })
+      .post(`/`, objetoAdicionado)
       .then(() => {
         toast.success("Novo Card criado com sucesso!");
         sessionStorage.setItem("editado", JSON.stringify(objetoAdicionado));
@@ -47,17 +47,15 @@ function Adicionar() {
       });
   };
 
-
-
   const handleInputChange = (event, setStateFunction) => {
-    console.log('event', event);
+    console.log("event", event);
     setStateFunction(event.target.value);
   };
-
 
   const handleBack = () => {
     navigate("/musicas");
   };
+
   return (
     <>
       <NavBar logoInicio={logo} />
@@ -102,6 +100,17 @@ function Adicionar() {
               <button type="button" onClick={handleBack}>
                 Cancelar
               </button>
+            </div>
+
+            <div>
+              <h3>EXTRA - MÁSCARA CPF: {cpf || "N/A"}</h3>
+              <input
+                type="text"
+                value={cpf}
+                placeholder="CPF"
+                onInput={mascaraCPF}
+                onChange={(e) => setCpf(e.target.value)}
+              />
             </div>
           </form>
         </div>

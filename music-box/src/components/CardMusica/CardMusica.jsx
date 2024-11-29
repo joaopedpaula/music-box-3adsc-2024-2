@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./CardMusica.module.css";
+import { transformarData } from "../../utils/globals";
 import capaImg from "../../utils/assets/capa.png";
 const CardMusica = ({
   genero,
@@ -7,6 +8,8 @@ const CardMusica = ({
   nomeMusica,
   anoLancamento,
   imagemSrc,
+  onClickBotaoDireita,
+  onClickBotaoEsquerda,
 }) => {
   return (
     <div className={styles["card-musica"]}>
@@ -26,12 +29,17 @@ const CardMusica = ({
           <span>Gênero</span>: {genero || "N/A"}{" "}
         </p>
         <p>
-          <span>Ano de Lançamento</span>: {anoLancamento || "N/A"}{" "}
+          <span>Ano de Lançamento</span>:
+          {transformarData(anoLancamento) || "N/A"}{" "}
         </p>
       </div>
       <div className={styles["botoes"]}>
-        <button className={styles["botao"]}>Editar</button>
-        <button className={styles["botao"]}>Excluir</button>
+        <button onClick={onClickBotaoEsquerda} className={styles["botao"]}>
+          Editar
+        </button>
+        <button onClick={onClickBotaoDireita} className={styles["botao"]}>
+          Excluir
+        </button>
       </div>
     </div>
   );

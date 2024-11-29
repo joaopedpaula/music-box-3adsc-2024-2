@@ -1,50 +1,62 @@
 import api from "../../api";
+import { toast } from "react-toastify";
 import styles from "./Musicas.module.css";
+import { useNavigate } from "react-router-dom";
 import logo from "../../utils/assets/logo.svg";
 import React, { useState, useEffect } from "react";
 import NavBar from "../../components/NavBar/NavBar";
 import CardMusica from "../../components/CardMusica/CardMusica";
-
 const Musicas = () => {
-  const [cardsData, setCardsData] = useState([]);
+  const navigate = useNavigate();
+  const [cardsData, setCardsData] = useState();
+  const handleBotaoEsquerda = (id) => {
+    console.log(id);
+    navigate(`/editar/${id}`);
+  };
+  const handleBotaoDireita = (id) => {
+    toast.dismiss();
+    api
+      .delete(`/${id}`)
+      .then(() => {
+        toast.success("Card de Música, deletado com sucesso!");
+        recuperarValorDoCard();
+      })
+      .catch(() => {
+        toast.error("Erro ao deletar, tente novamente!");
+      });
+  };
   function recuperarValorDoCard() {
     api
       .get()
       .then((response) => {
         const { data } = response;
-        console.log(data);
         setCardsData(data);
       })
       .catch(() => {
-        console.log("Deu erro, tente novamente!");
+        toast.error("Erro ao recuperar os valores da API, tente novamente");
       });
   }
-
   useEffect(() => {
     recuperarValorDoCard();
   }, []);
-
   return (
     <>
       <NavBar logoInicio={logo} />
       <div className={styles["content-musicas"]}>
-        
-            <CardMusica 
-                artista={"Metaleiros"}
-                genero={"rock"}
-            /> 
-       
-        
-        {cardsData.map((item, i) => (
-            <CardMusica 
-                key={i}
-                nomeMusica={item.nomeMusica}
-                artista={item.artista}
-                genero={item.genero}
-                imagemSrc={item.imagem}
-                anoLancamento={item.ano}
-            />                
-        ))}
+        {cardsData &&
+          cardsData.map((data, index) => (
+            <div key={index} className={styles["quadrado"]}>
+              <CardMusica
+                artista={data.artista}
+                nomeMusica={data.nomeMusica}
+                genero={data.genero}
+                anoLancamento={data.ano}
+                imagemSrc={data.imagem}
+                onClickBotaoEsquerda={() => handleBotaoEsquerda(data.id)}
+                onClickBotaoDireita={() => handleBotaoDireita(data.id)}
+              />
+            </div>
+          ))}
       </div>
     </>
   );
